@@ -1,0 +1,1252 @@
+{
+  "base_model": "SDXL",
+  "version": 3,
+  "applies_to": [
+    "Checkpoint",
+    "LoRA",
+    "LyCORIS"
+  ],
+  "layer_aliases": {
+    "MID": "M00",
+    "MID00": "M00",
+    "MIDDLE": "M00"
+  },
+  "layers": [
+    {
+      "name": "BASE",
+      "effect": "CLIP/text understanding, tag and character knowledge, and global UNet conditioning. Important for vocabulary, concept knowledge, and preserving or changing default style foundations."
+    },
+    {
+      "name": "IN00",
+      "effect": "Hands, contours, local separation, contrast edges, and finger stability."
+    },
+    {
+      "name": "IN01",
+      "effect": "Background richness, distance feeling, background detail, and clothing information density."
+    },
+    {
+      "name": "IN02",
+      "effect": "Body type, hair mass, clothing structure, and drawing density."
+    },
+    {
+      "name": "IN03",
+      "effect": "Downsample stage for coarse structure transfer and spatial compression."
+    },
+    {
+      "name": "IN04",
+      "effect": "Face appearance, expression, facial design, and concept-conditioned structure with transformer support."
+    },
+    {
+      "name": "IN05",
+      "effect": "Body and face-supporting transformer stage without skip connection; useful for structure and concept transfer."
+    },
+    {
+      "name": "IN06",
+      "effect": "Downsample stage that supports clothing and pre-shading color density flow."
+    },
+    {
+      "name": "IN07",
+      "effect": "Core pose structure, limb motion, and dynamic pose individuality."
+    },
+    {
+      "name": "IN08",
+      "effect": "Human-body design, perspective, physique, and limb attachment stability."
+    },
+    {
+      "name": "M00",
+      "effect": "Middle integration, atmosphere, whole-image mixing, and how pose, face, and style blend together."
+    },
+    {
+      "name": "OUT00",
+      "effect": "Accessory, skin feel, gloss, and decoded structure finishing with transformer support."
+    },
+    {
+      "name": "OUT01",
+      "effect": "Accessory and skin-detail continuation with transformer support."
+    },
+    {
+      "name": "OUT02",
+      "effect": "Upsample-inclusive output stage for decoded detail reconstruction and finishing."
+    },
+    {
+      "name": "OUT03",
+      "effect": "Eyes, pupils, and face-feature shaping with strong face impact."
+    },
+    {
+      "name": "OUT04",
+      "effect": "Face shape and facial contour shaping."
+    },
+    {
+      "name": "OUT05",
+      "effect": "Nose, ears, and base face structure with upsample support."
+    },
+    {
+      "name": "OUT06",
+      "effect": "Mouth, jaw, teeth, and mouth-area structure without transformer."
+    },
+    {
+      "name": "OUT07",
+      "effect": "Line quality, texture, lighting, shadow style, and painting style."
+    },
+    {
+      "name": "OUT08",
+      "effect": "Color feel, region color separation, saturation, contrast, and final look lock."
+    },
+    {
+      "name": "VAE",
+      "effect": "VAE encode/decode layers controlling latent conversion, reconstruction, and output texture/compression characteristics."
+    }
+  ],
+  "elements": [
+    {
+      "name": "proj_in",
+      "effect": "transformer/projector input; shading and feature conversion",
+      "aliases": [
+        "proj"
+      ]
+    },
+    {
+      "name": "proj_out",
+      "effect": "transformer/projector output; shading, style finish, and decoded look",
+      "aliases": [
+        "proj"
+      ]
+    },
+    {
+      "name": "norm",
+      "effect": "normalization and activation balance",
+      "aliases": []
+    },
+    {
+      "name": "in_layers.0",
+      "effect": "ResBlock input norm; local structure and contrast balance",
+      "aliases": [
+        "in_layers"
+      ]
+    },
+    {
+      "name": "in_layers.2",
+      "effect": "ResBlock input conv; structure, silhouette, and local form transfer",
+      "aliases": [
+        "in_layers"
+      ]
+    },
+    {
+      "name": "out_layers.0",
+      "effect": "ResBlock output norm; local finish balance",
+      "aliases": [
+        "out_layers",
+        "out"
+      ]
+    },
+    {
+      "name": "out_layers.3",
+      "effect": "resblock output conv; structure, detail, and rendering finish",
+      "aliases": [
+        "out_layers",
+        "out"
+      ]
+    },
+    {
+      "name": "emb_layers",
+      "effect": "ResBlock timestep projection; background/detail modulation",
+      "aliases": [
+        "emb"
+      ]
+    },
+    {
+      "name": "position_embedding",
+      "effect": "Text Encoder 1 positional embedding; token order and sequence structure",
+      "aliases": [
+        "embeddings",
+        "embedding"
+      ]
+    },
+    {
+      "name": "position_ids",
+      "effect": "Text Encoder 1 positional id tensor; sequence position handling",
+      "aliases": [
+        "embeddings"
+      ]
+    },
+    {
+      "name": "token_embedding",
+      "effect": "Text Encoder 1 token embedding; vocabulary and tag knowledge",
+      "aliases": [
+        "embeddings"
+      ]
+    },
+    {
+      "name": "layer_norm1",
+      "effect": "Text Encoder 1 first layer norm; language-side stability",
+      "aliases": [
+        "layers.*.layer_norm1",
+        "norm1",
+        "norm",
+        "encoder",
+        "layers"
+      ]
+    },
+    {
+      "name": "layer_norm2",
+      "effect": "Text Encoder 1 second layer norm; language-side balance",
+      "aliases": [
+        "layers.*.layer_norm2",
+        "norm2",
+        "norm",
+        "encoder",
+        "layers"
+      ]
+    },
+    {
+      "name": "mlp.fc1",
+      "effect": "Text Encoder 1 MLP fc1; concept expansion and tag-space mixing",
+      "aliases": [
+        "layers.*.mlp.fc1",
+        "mlp",
+        "fc1",
+        "encoder",
+        "layers"
+      ]
+    },
+    {
+      "name": "mlp.fc2",
+      "effect": "Text Encoder 1 MLP fc2; concept compression and finish",
+      "aliases": [
+        "layers.*.mlp.fc2",
+        "mlp",
+        "fc2",
+        "encoder",
+        "layers"
+      ]
+    },
+    {
+      "name": "self_attn.q_proj",
+      "effect": "Text Encoder 1 self-attention q; token relation interpretation",
+      "aliases": [
+        "layers.*.self_attn.q_proj",
+        "self_attn",
+        "q_proj",
+        "encoder",
+        "layers"
+      ]
+    },
+    {
+      "name": "self_attn.k_proj",
+      "effect": "Text Encoder 1 self-attention k; token matching and context lookup",
+      "aliases": [
+        "layers.*.self_attn.k_proj",
+        "self_attn",
+        "k_proj",
+        "encoder",
+        "layers"
+      ]
+    },
+    {
+      "name": "self_attn.v_proj",
+      "effect": "Text Encoder 1 self-attention v; token feature content",
+      "aliases": [
+        "layers.*.self_attn.v_proj",
+        "self_attn",
+        "v_proj",
+        "encoder",
+        "layers"
+      ]
+    },
+    {
+      "name": "self_attn.out_proj",
+      "effect": "Text Encoder 1 self-attention output; final token mixing",
+      "aliases": [
+        "layers.*.self_attn.out_proj",
+        "self_attn",
+        "out_proj",
+        "encoder",
+        "layers"
+      ]
+    },
+    {
+      "name": "final_layer_norm",
+      "effect": "Text Encoder 1 final norm; language output balance",
+      "aliases": [
+        "final_layer",
+        "final",
+        "norm"
+      ]
+    },
+    {
+      "name": "token_embedding",
+      "effect": "Text Encoder 2 token embedding; vocabulary and style-tag knowledge",
+      "aliases": [
+        "token"
+      ]
+    },
+    {
+      "name": "positional_embedding",
+      "effect": "Text Encoder 2 positional embedding; sequence order handling",
+      "aliases": []
+    },
+    {
+      "name": "text_projection",
+      "effect": "Text Encoder 2 text projection; pooled concept projection",
+      "aliases": []
+    },
+    {
+      "name": "logit_scale",
+      "effect": "Text Encoder 2 logit scale; text-image strength calibration",
+      "aliases": []
+    },
+    {
+      "name": "ln_final",
+      "effect": "Text Encoder 2 final norm; language output balance",
+      "aliases": []
+    },
+    {
+      "name": "attn.in_proj",
+      "effect": "Text Encoder 2 attention in projection; concept and token relation shaping",
+      "aliases": [
+        "transformer.resblocks",
+        "resblocks",
+        "transformer",
+        "attn",
+        "in_proj"
+      ]
+    },
+    {
+      "name": "attn.out_proj",
+      "effect": "Text Encoder 2 attention output projection; final token mixing",
+      "aliases": [
+        "transformer.resblocks",
+        "resblocks",
+        "transformer",
+        "attn",
+        "out_proj"
+      ]
+    },
+    {
+      "name": "ln_1",
+      "effect": "Text Encoder 2 first norm; token stability",
+      "aliases": [
+        "transformer.resblocks",
+        "resblocks",
+        "transformer"
+      ]
+    },
+    {
+      "name": "ln_2",
+      "effect": "Text Encoder 2 second norm; token balance",
+      "aliases": [
+        "transformer.resblocks",
+        "resblocks",
+        "transformer"
+      ]
+    },
+    {
+      "name": "mlp.c_fc",
+      "effect": "Text Encoder 2 MLP fc; concept expansion",
+      "aliases": [
+        "transformer.resblocks",
+        "resblocks",
+        "transformer",
+        "c_fc",
+        "mlp"
+      ]
+    },
+    {
+      "name": "mlp.c_proj",
+      "effect": "Text Encoder 2 MLP projection; concept compression and finish",
+      "aliases": [
+        "transformer.resblocks",
+        "resblocks",
+        "transformer",
+        "c_proj",
+        "mlp"
+      ]
+    },
+    {
+      "name": "time_embed.0",
+      "effect": "Global UNet time embedding input; denoising-step conditioning",
+      "aliases": [
+        "time_embed",
+        "time",
+        "embed"
+      ]
+    },
+    {
+      "name": "time_embed.2",
+      "effect": "Global UNet time embedding output; denoising-step conditioning finish",
+      "aliases": [
+        "time_embed",
+        "time",
+        "embed"
+      ]
+    },
+    {
+      "name": "label_emb.0.0",
+      "effect": "Global label embedding input; conditioning and classifier-free guidance behavior",
+      "aliases": [
+        "label_emb",
+        "label",
+        "emb"
+      ]
+    },
+    {
+      "name": "label_emb.0.2",
+      "effect": "Global label embedding output; conditioning finish",
+      "aliases": [
+        "label_emb",
+        "label",
+        "emb"
+      ]
+    },
+    {
+      "name": "out.0",
+      "effect": "Global UNet output norm; final image balance",
+      "aliases": [
+        "out"
+      ]
+    },
+    {
+      "name": "out.2",
+      "effect": "Global UNet output convolution; final decoded feature to image-space projection",
+      "aliases": [
+        "out"
+      ]
+    },
+    {
+      "name": "op",
+      "effect": "Downsample operator; coarse structure routing and compression",
+      "aliases": []
+    },
+    {
+      "name": "skip_connection",
+      "effect": "Skip branch; strong carry-over of local structure and identity",
+      "aliases": [
+        "skip"
+      ]
+    },
+    {
+      "name": "attn1.to_q",
+      "effect": "Self-attention query; whole-image consistency",
+      "aliases": [
+        "attn1.to_q",
+        "transformer",
+        "transformer_blocks",
+        "attn1",
+        "attn",
+        "to_q"
+      ]
+    },
+    {
+      "name": "attn1.to_k",
+      "effect": "Self-attention key; whole-image structural matching",
+      "aliases": [
+        "attn1.to_k",
+        "transformer",
+        "transformer_blocks",
+        "attn1",
+        "attn",
+        "to_k"
+      ]
+    },
+    {
+      "name": "attn1.to_v",
+      "effect": "Self-attention value; feature detail content",
+      "aliases": [
+        "attn1.to_v",
+        "transformer",
+        "transformer_blocks",
+        "attn1",
+        "attn",
+        "to_v"
+      ]
+    },
+    {
+      "name": "attn1.to_out",
+      "effect": "Self-attention output; whole-image integration",
+      "aliases": [
+        "attn1.to_out",
+        "attn1.to_out",
+        "transformer",
+        "transformer_blocks",
+        "attn1",
+        "attn",
+        "to_out"
+      ]
+    },
+    {
+      "name": "attn2.to_q",
+      "effect": "Cross-attention query; prompt-conditioned concept handling",
+      "aliases": [
+        "attn2.to_q",
+        "transformer",
+        "transformer_blocks",
+        "attn2",
+        "attn",
+        "to_q"
+      ]
+    },
+    {
+      "name": "attn2.to_k",
+      "effect": "Cross-attention key; concept lookup and matching",
+      "aliases": [
+        "attn2.to_k",
+        "transformer",
+        "transformer_blocks",
+        "attn2",
+        "attn",
+        "to_k"
+      ]
+    },
+    {
+      "name": "attn2.to_v",
+      "effect": "Cross-attention value; concept/style content injection",
+      "aliases": [
+        "attn2.to_v",
+        "transformer",
+        "transformer_blocks",
+        "attn2",
+        "attn",
+        "to_v"
+      ]
+    },
+    {
+      "name": "attn2.to_out",
+      "effect": "Cross-attention output; concept/style integration",
+      "aliases": [
+        "attn2.to_out",
+        "attn2.to_out",
+        "transformer",
+        "transformer_blocks",
+        "attn2",
+        "attn",
+        "to_out"
+      ]
+    },
+    {
+      "name": "ff.net.0",
+      "effect": "FFN projection; density and shading shaping",
+      "aliases": [
+        "ff.net",
+        "ff.net.0",
+        "ff.net.0",
+        "transformer",
+        "transformer_blocks",
+        "ff"
+      ]
+    },
+    {
+      "name": "ff.net.2",
+      "effect": "FFN output; detail and style finish",
+      "aliases": [
+        "ff.net",
+        "ff.net.2",
+        "transformer",
+        "transformer_blocks",
+        "ff"
+      ]
+    },
+    {
+      "name": "norm1",
+      "effect": "Transformer norm1; stability",
+      "aliases": [
+        "norm1",
+        "transformer",
+        "transformer_blocks",
+        "norm"
+      ]
+    },
+    {
+      "name": "norm2",
+      "effect": "Transformer norm2; concept/style balance",
+      "aliases": [
+        "norm2",
+        "transformer",
+        "transformer_blocks",
+        "norm"
+      ]
+    },
+    {
+      "name": "norm3",
+      "effect": "Transformer norm3; FFN balance and finish",
+      "aliases": [
+        "norm3",
+        "transformer",
+        "transformer_blocks",
+        "norm"
+      ]
+    },
+    {
+      "name": "conv",
+      "effect": "Upsample convolution; decoded detail reconstruction and upsample finish",
+      "aliases": []
+    },
+    {
+      "name": "quant_conv",
+      "effect": "VAE quantization conv; latent channel conversion",
+      "aliases": [
+        "quant",
+        "conv"
+      ]
+    },
+    {
+      "name": "post_quant_conv",
+      "effect": "VAE post-quant conv; latent channel restoration",
+      "aliases": [
+        "quant",
+        "conv",
+        "post_quant",
+        "post"
+      ]
+    },
+    {
+      "name": "conv_in",
+      "effect": "VAE encode/decode element",
+      "aliases": [
+        "conv"
+      ]
+    },
+    {
+      "name": "conv_out",
+      "effect": "VAE encode/decode element",
+      "aliases": [
+        "conv"
+      ]
+    },
+    {
+      "name": "attn_1.k",
+      "effect": "VAE encode/decode element",
+      "aliases": [
+        "attn_1"
+      ]
+    },
+    {
+      "name": "attn_1.norm",
+      "effect": "VAE encode/decode element",
+      "aliases": [
+        "attn_1",
+        "norm"
+      ]
+    },
+    {
+      "name": "attn_1.proj_out",
+      "effect": "Projection output; style and feature finish",
+      "aliases": [
+        "attn_1",
+        "proj_out"
+      ]
+    },
+    {
+      "name": "attn_1.q",
+      "effect": "VAE encode/decode element",
+      "aliases": [
+        "attn1"
+      ]
+    },
+    {
+      "name": "attn_1.v",
+      "effect": "VAE encode/decode element",
+      "aliases": [
+        "attn1"
+      ]
+    },
+    {
+      "name": "block_1.conv1",
+      "effect": "VAE encode/decode element",
+      "aliases": [
+        "conv1",
+        "conv",
+        "block_1"
+      ]
+    },
+    {
+      "name": "block_1.conv2",
+      "effect": "VAE encode/decode element",
+      "aliases": [
+        "conv2",
+        "conv",
+        "block_1"
+      ]
+    },
+    {
+      "name": "block_1.norm1",
+      "effect": "norm1; local stability and balance",
+      "aliases": [
+        "norm1",
+        "norm",
+        "block_1"
+      ]
+    },
+    {
+      "name": "block_1.norm2",
+      "effect": "norm2; concept/style balance",
+      "aliases": [
+        "norm2",
+        "norm",
+        "block_1"
+      ]
+    },
+    {
+      "name": "block_2.conv1",
+      "effect": "VAE encode/decode element",
+      "aliases": [
+        "conv1",
+        "conv",
+        "block_2"
+      ]
+    },
+    {
+      "name": "block_1.conv2",
+      "effect": "VAE encode/decode element",
+      "aliases": [
+        "conv2",
+        "conv",
+        "block_2"
+      ]
+    },
+    {
+      "name": "block_2.norm1",
+      "effect": "norm1; local stability and balance",
+      "aliases": [
+        "norm1",
+        "norm",
+        "block_2"
+      ]
+    },
+    {
+      "name": "block_2.norm2",
+      "effect": "norm2; concept/style balance",
+      "aliases": [
+        "norm2",
+        "norm",
+        "block_2"
+      ]
+    },
+    {
+      "name": "norm_out",
+      "effect": "VAE encode/decode element",
+      "aliases": [
+        "norm"
+      ]
+    },
+    {
+      "name": "up.*.block.*.conv1",
+      "effect": "VAE encode/decode element",
+      "aliases": [
+        "conv1",
+        "conv",
+        "up"
+      ]
+    },
+    {
+      "name": "up.*.block.*.conv2",
+      "effect": "VAE encode/decode element",
+      "aliases": [
+        "conv2",
+        "conv",
+        "up"
+      ]
+    },
+    {
+      "name": "up.*.block.*.nin_shortcut",
+      "effect": "VAE encode/decode element",
+      "aliases": [
+        "nin_shortcut",
+        "up"
+      ]
+    },
+    {
+      "name": "up.*.block.*.norm1",
+      "effect": "norm1; local stability and balance",
+      "aliases": [
+        "norm1",
+        "norm",
+        "up"
+      ]
+    },
+    {
+      "name": "up.*.block.*.norm2",
+      "effect": "norm2; concept/style balance",
+      "aliases": [
+        "norm2",
+        "norm",
+        "up"
+      ]
+    },
+    {
+      "name": "upsample.conv",
+      "effect": "Convolution; texture, detail, and reconstruction",
+      "aliases": [
+        "conv",
+        "upsample"
+      ]
+    },
+    {
+      "name": "conv_in",
+      "effect": "VAE encode/decode element",
+      "aliases": [
+        "conv"
+      ]
+    },
+    {
+      "name": "conv_out",
+      "effect": "VAE encode/decode element",
+      "aliases": [
+        "conv"
+      ]
+    },
+    {
+      "name": "down.*.block.*.conv1",
+      "effect": "VAE encode/decode element",
+      "aliases": [
+        "conv1",
+        "down",
+        "conv"
+      ]
+    },
+    {
+      "name": "down.*.block.*.conv2",
+      "effect": "VAE encode/decode element",
+      "aliases": [
+        "conv2",
+        "down",
+        "conv"
+      ]
+    },
+    {
+      "name": "down.*.block.*.nin_shortcut",
+      "effect": "VAE encode/decode element",
+      "aliases": [
+        "nin_shortcut",
+        "down"
+      ]
+    },
+    {
+      "name": "down.*.block.*.norm1",
+      "effect": "norm1; local stability and balance",
+      "aliases": [
+        "norm1",
+        "down",
+        "norm"
+      ]
+    },
+    {
+      "name": "down.*.block.*.norm2",
+      "effect": "norm2; concept/style balance",
+      "aliases": [
+        "norm2",
+        "down",
+        "norm"
+      ]
+    },
+    {
+      "name": "downsample.conv",
+      "effect": "Convolution; texture, detail, and reconstruction",
+      "aliases": [
+        "downsample",
+        "conv"
+      ]
+    },
+    {
+      "name": "attn.k_proj",
+      "effect": "Text Encoder 2 attention k projection; token matching and context lookup",
+      "aliases": [
+        "k_proj",
+        "attn"
+      ]
+    },
+    {
+      "name": "attn.q_proj",
+      "effect": "Text Encoder 2 attention q projection; token relation interpretation",
+      "aliases": [
+        "q_proj",
+        "attn"
+      ]
+    },
+    {
+      "name": "attn.v_proj",
+      "effect": "Text Encoder 2 attention v projection; token feature content",
+      "aliases": [
+        "v_proj",
+        "attn"
+      ]
+    }
+  ],
+  "layer_elements": {
+    "BASE": [
+      "position_embedding",
+      "position_ids",
+      "token_embedding",
+      "layer_norm1",
+      "layer_norm2",
+      "mlp.fc1",
+      "mlp.fc2",
+      "self_attn.q_proj",
+      "self_attn.k_proj",
+      "self_attn.v_proj",
+      "self_attn.out_proj",
+      "final_layer_norm",
+      "token_embedding",
+      "positional_embedding",
+      "text_projection",
+      "logit_scale",
+      "ln_final",
+      "attn.in_proj",
+      "attn.out_proj",
+      "ln_1",
+      "ln_2",
+      "mlp.c_fc",
+      "mlp.c_proj",
+      "time_embed.0",
+      "time_embed.2",
+      "label_emb.0.0",
+      "label_emb.0.2",
+      "out.0",
+      "out.2"
+    ],
+    "IN00": [],
+    "IN01": [
+      "emb_layers",
+      "in_layers.0",
+      "in_layers.2",
+      "out_layers.0",
+      "out_layers.3"
+    ],
+    "IN02": [
+      "emb_layers",
+      "in_layers.0",
+      "in_layers.2",
+      "out_layers.0",
+      "out_layers.3"
+    ],
+    "IN03": [
+      "op"
+    ],
+    "IN04": [
+      "emb_layers",
+      "in_layers.0",
+      "in_layers.2",
+      "out_layers.0",
+      "out_layers.3",
+      "skip_connection",
+      "norm",
+      "proj_in",
+      "proj_out",
+      "attn1.to_q",
+      "attn1.to_k",
+      "attn1.to_v",
+      "attn1.to_out",
+      "attn2.to_q",
+      "attn2.to_k",
+      "attn2.to_v",
+      "attn2.to_out",
+      "ff.net.0",
+      "ff.net.2",
+      "norm1",
+      "norm2",
+      "norm3"
+    ],
+    "IN05": [
+      "emb_layers",
+      "in_layers.0",
+      "in_layers.2",
+      "out_layers.0",
+      "out_layers.3",
+      "norm",
+      "proj_in",
+      "proj_out",
+      "attn1.to_q",
+      "attn1.to_k",
+      "attn1.to_v",
+      "attn1.to_out",
+      "attn2.to_q",
+      "attn2.to_k",
+      "attn2.to_v",
+      "attn2.to_out",
+      "ff.net.0",
+      "ff.net.2",
+      "norm1",
+      "norm2",
+      "norm3"
+    ],
+    "IN06": [
+      "op"
+    ],
+    "IN07": [
+      "emb_layers",
+      "in_layers.0",
+      "in_layers.2",
+      "out_layers.0",
+      "out_layers.3",
+      "skip_connection",
+      "norm",
+      "proj_in",
+      "proj_out",
+      "attn1.to_q",
+      "attn1.to_k",
+      "attn1.to_v",
+      "attn1.to_out",
+      "attn2.to_q",
+      "attn2.to_k",
+      "attn2.to_v",
+      "attn2.to_out",
+      "ff.net.0",
+      "ff.net.2",
+      "norm1",
+      "norm2",
+      "norm3"
+    ],
+    "IN08": [
+      "emb_layers",
+      "in_layers.0",
+      "in_layers.2",
+      "out_layers.0",
+      "out_layers.3",
+      "norm",
+      "proj_in",
+      "proj_out",
+      "attn1.to_q",
+      "attn1.to_k",
+      "attn1.to_v",
+      "attn1.to_out",
+      "attn2.to_q",
+      "attn2.to_k",
+      "attn2.to_v",
+      "attn2.to_out",
+      "ff.net.0",
+      "ff.net.2",
+      "norm1",
+      "norm2",
+      "norm3"
+    ],
+    "M00": [
+      "emb_layers",
+      "in_layers.0",
+      "in_layers.2",
+      "out_layers.0",
+      "out_layers.3",
+      "norm",
+      "proj_in",
+      "proj_out",
+      "attn1.to_q",
+      "attn1.to_k",
+      "attn1.to_v",
+      "attn1.to_out",
+      "attn2.to_q",
+      "attn2.to_k",
+      "attn2.to_v",
+      "attn2.to_out",
+      "ff.net.0",
+      "ff.net.2",
+      "norm1",
+      "norm2",
+      "norm3"
+    ],
+    "OUT00": [
+      "emb_layers",
+      "in_layers.0",
+      "in_layers.2",
+      "out_layers.0",
+      "out_layers.3",
+      "skip_connection",
+      "norm",
+      "proj_in",
+      "proj_out",
+      "attn1.to_q",
+      "attn1.to_k",
+      "attn1.to_v",
+      "attn1.to_out",
+      "attn2.to_q",
+      "attn2.to_k",
+      "attn2.to_v",
+      "attn2.to_out",
+      "ff.net.0",
+      "ff.net.2",
+      "norm1",
+      "norm2",
+      "norm3"
+    ],
+    "OUT01": [
+      "emb_layers",
+      "in_layers.0",
+      "in_layers.2",
+      "out_layers.0",
+      "out_layers.3",
+      "skip_connection",
+      "norm",
+      "proj_in",
+      "proj_out",
+      "attn1.to_q",
+      "attn1.to_k",
+      "attn1.to_v",
+      "attn1.to_out",
+      "attn2.to_q",
+      "attn2.to_k",
+      "attn2.to_v",
+      "attn2.to_out",
+      "ff.net.0",
+      "ff.net.2",
+      "norm1",
+      "norm2",
+      "norm3"
+    ],
+    "OUT03": [
+      "emb_layers",
+      "in_layers.0",
+      "in_layers.2",
+      "out_layers.0",
+      "out_layers.3",
+      "skip_connection",
+      "norm",
+      "proj_in",
+      "proj_out",
+      "attn1.to_q",
+      "attn1.to_k",
+      "attn1.to_v",
+      "attn1.to_out",
+      "attn2.to_q",
+      "attn2.to_k",
+      "attn2.to_v",
+      "attn2.to_out",
+      "ff.net.0",
+      "ff.net.2",
+      "norm1",
+      "norm2",
+      "norm3"
+    ],
+    "OUT04": [
+      "emb_layers",
+      "in_layers.0",
+      "in_layers.2",
+      "out_layers.0",
+      "out_layers.3",
+      "skip_connection",
+      "norm",
+      "proj_in",
+      "proj_out",
+      "attn1.to_q",
+      "attn1.to_k",
+      "attn1.to_v",
+      "attn1.to_out",
+      "attn2.to_q",
+      "attn2.to_k",
+      "attn2.to_v",
+      "attn2.to_out",
+      "ff.net.0",
+      "ff.net.2",
+      "norm1",
+      "norm2",
+      "norm3"
+    ],
+    "OUT02": [
+      "emb_layers",
+      "in_layers.0",
+      "in_layers.2",
+      "out_layers.0",
+      "out_layers.3",
+      "skip_connection",
+      "norm",
+      "proj_in",
+      "proj_out",
+      "attn1.to_q",
+      "attn1.to_k",
+      "attn1.to_v",
+      "attn1.to_out",
+      "attn2.to_q",
+      "attn2.to_k",
+      "attn2.to_v",
+      "attn2.to_out",
+      "ff.net.0",
+      "ff.net.2",
+      "norm1",
+      "norm2",
+      "norm3",
+      "conv"
+    ],
+    "OUT05": [
+      "emb_layers",
+      "in_layers.0",
+      "in_layers.2",
+      "out_layers.0",
+      "out_layers.3",
+      "skip_connection",
+      "norm",
+      "proj_in",
+      "proj_out",
+      "attn1.to_q",
+      "attn1.to_k",
+      "attn1.to_v",
+      "attn1.to_out",
+      "attn2.to_q",
+      "attn2.to_k",
+      "attn2.to_v",
+      "attn2.to_out",
+      "ff.net.0",
+      "ff.net.2",
+      "norm1",
+      "norm2",
+      "norm3",
+      "conv"
+    ],
+    "OUT06": [
+      "emb_layers",
+      "in_layers.0",
+      "in_layers.2",
+      "out_layers.0",
+      "out_layers.3",
+      "skip_connection"
+    ],
+    "OUT07": [
+      "emb_layers",
+      "in_layers.0",
+      "in_layers.2",
+      "out_layers.0",
+      "out_layers.3",
+      "skip_connection"
+    ],
+    "OUT08": [
+      "emb_layers",
+      "in_layers.0",
+      "in_layers.2",
+      "out_layers.0",
+      "out_layers.3",
+      "skip_connection"
+    ],
+    "VAE": [
+      "conv_in",
+      "conv_out",
+      "down.*.block.*.conv1",
+      "down.*.block.*.conv2",
+      "down.*.block.*.norm1",
+      "down.*.block.*.norm2",
+      "down.*.block.*.nin_shortcut",
+      "downsample.conv",
+      "attn_1.q",
+      "attn_1.k",
+      "attn_1.v",
+      "attn_1.norm",
+      "attn_1.proj_out",
+      "block_1.conv1",
+      "block_1.conv2",
+      "block_1.norm1",
+      "block_1.norm2",
+      "block_2.conv1",
+      "block_2.conv2",
+      "block_2.norm1",
+      "block_2.norm2",
+      "norm_out",
+      "up.*.block.*.conv1",
+      "up.*.block.*.conv2",
+      "up.*.block.*.norm1",
+      "up.*.block.*.norm2",
+      "up.*.block.*.nin_shortcut",
+      "upsample.conv",
+      "quant_conv",
+      "post_quant_conv"
+    ]
+  },
+  "mode_notes": {
+    "Checkpoint": "Use these as guidance when designing checkpoint merge elemental ratios. Structure-heavy resblock and attention targets can change model identity strongly.",
+    "LoRA": "For LoRA bake, prefer narrower targets when preserving the base model. attn2 and BASE are often useful for knowledge injection, while OUT07/OUT08 and proj/ff targets are useful for style/color transfer.",
+    "LyCORIS": "LyCORIS can hit the same logical targets. Per-layer validity still matters; avoid suggesting targets that do not exist in the selected layer."
+  }
+}
